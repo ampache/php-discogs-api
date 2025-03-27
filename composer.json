@@ -1,0 +1,55 @@
+{
+    "name": "ampache/php-discogs-api",
+    "type": "library",
+    "description": "A PHP library for accessing the Discogs API",
+    "keywords": ["discogs", "library", "php", "api"],
+    "homepage": "https://github.com/ampache/php-discogs-api",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Lachlan de Waard",
+            "email": "lachlan.00@gmail.com",
+            "homepage": "https://github.com/lachlan-00",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=8.2",
+        "rmccue/requests": "^2.0"
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^3.49",
+        "phpstan/phpstan": "^1.10",
+        "phpunit/phpunit": "^11",
+        "rector/rector": "^1"
+    },
+    "scripts": {
+        "qa": "composer run-script cs:check",
+        "stan": "vendor/bin/phpstan analyse",
+        "stan-baseline": "vendor/bin/phpstan --generate-baseline",
+        "tests": "vendor/bin/phpunit -c phpunit.xml",
+        "cs:fix": "vendor/bin/php-cs-fixer fix",
+        "cs:check": "vendor/bin/php-cs-fixer fix --dry-run -vv",
+        "rector:dry": "rector process -n",
+        "rector:fix": "rector process"
+    },
+    "scripts-descriptions": {
+        "coverage": "Generates the code-coverage report into the build/coverage directory",
+        "qa": "Runs several qa-related tests",
+        "stan": "Performs static analysis",
+        "stan-baseline": "Regenerate phpstan baseline",
+        "tests": "Executes the unit tests",
+        "syntax": "Performs php syntax checks",
+        "cs:fix": "Performs code-style corrections on the whole codebase",
+        "cs:check": "Performs a code-style dry-run on the whole codebase",
+        "rector:dry": "Performs rector code-migrations dry-run",
+        "rector:fix": "Applies pending rector code-migrations"
+    },
+    "suggest": {
+    },
+    "autoload": {
+        "psr-0": {
+            "AmpacheDiscogs": "src/"
+        }
+    }
+}
