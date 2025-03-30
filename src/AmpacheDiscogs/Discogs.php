@@ -73,12 +73,18 @@ class Discogs
      * @return array<string, mixed>
      * @throws Exception
      */
-    public function query_discogs(string $query): array
+    private function _query_discogs(string $path_str, string $query_str = ''): array
     {
-        $url = self::DISCOGS_URL . $query;
-        $url .= (str_contains($query, '?')) ? '&' : '?';
-        $url .= 'key=' . $this->api_key . '&secret=' . $this->secret;
-        $request = Requests::get($url);
+        $url = (!empty($query_str))
+            ? self::DISCOGS_URL . $path_str . '?key=' . $this->api_key . '&secret=' . $this->secret . '&' . $query_str
+            : self::DISCOGS_URL . $path_str . '?key=' . $this->api_key . '&secret=' . $this->secret;
+
+        $headers = [
+            'Accept' => 'application/json',
+            'User-Agent' => $this->userAgent
+        ];
+
+        $request = Requests::get($url, $headers);
 
         // sleep for 0.5s
         usleep(500000);
@@ -87,7 +93,7 @@ class Discogs
 
         return ($request->success && is_array($response))
             ? $response
-            : throw new Exception('Bad response from Discogs');
+            : throw new Exception("Bad response from Discogs\n" . $request->body . "\n");
     }
 
     /**
@@ -101,9 +107,9 @@ class Discogs
         if (!isset($parameters['per_page'])) {
             $parameters['per_page'] = 10;
         }
-        $query = "database/search?" . http_build_query($parameters);
+        $query = http_build_query($parameters);
 
-        return $this->query_discogs($query);
+        return $this->_query_discogs('database/search', $query);
     }
 
     /**
@@ -161,9 +167,7 @@ class Discogs
      */
     public function get_album(int $object_id, string $release_type = 'masters'): array
     {
-        $query = $release_type . '/' . $object_id;
-
-        return $this->query_discogs($query);
+        return $this->_query_discogs($release_type . '/' . $object_id);
     }
 
     /**
@@ -193,8 +197,6 @@ class Discogs
      */
     public function get_artist(int $object_id): array
     {
-        $query = "artists/" . $object_id;
-
-        return $this->query_discogs($query);
+        return $this->_query_discogs('artists/' . $object_id);
     }
 }
