@@ -46,11 +46,15 @@ use WpOrg\Requests\Requests;
  */
 class Discogs
 {
+    public const VERSION = '0.1.0';
+
     private const DISCOGS_URL = 'https://api.discogs.com/';
 
     private readonly string $api_key;
 
     private readonly string $secret;
+
+    private string $userAgent;
 
     /**
      * Constructor
@@ -60,8 +64,9 @@ class Discogs
         string $discogs_api_key,
         string $discogs_api_secret
     ) {
-        $this->api_key = trim($discogs_api_key);
-        $this->secret  = trim($discogs_api_secret);
+        $this->api_key   = trim($discogs_api_key);
+        $this->secret    = trim($discogs_api_secret);
+        $this->userAgent = 'AmpacheDiscogs/' . self::VERSION;
     }
 
     /**
