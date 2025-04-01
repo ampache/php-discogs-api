@@ -9,6 +9,7 @@ $username = null;
 $password = null;
 $discogs  = new Discogs($username, $password);
 $username = 'discogsUsername';
+$list_id  = 1596537;
 
 try {
     $results = $discogs->get_profile($username);
@@ -20,6 +21,10 @@ try {
     print_r($results);
 
     $results = $discogs->get_wantlist($username);
+
+    print_r($results);
+
+    $results = $discogs->get_list($list_id);
 
     print_r($results);
 } catch (Exception $exception) {

@@ -5,10 +5,10 @@ use AmpacheDiscogs\Discogs;
 require dirname(__DIR__) . '/vendor/autoload.php';
 
 // your own username and password are required to use the Discogs API
-$label_id = null;
+$username = null;
 $password = null;
-$discogs  = new Discogs($label_id, $password);
-$label_id = '1212668';
+$discogs  = new Discogs($username, $password);
+$label_id = 1212668;
 
 try {
     $results = $discogs->get_label($label_id);
