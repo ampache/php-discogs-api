@@ -28,22 +28,6 @@ namespace AmpacheDiscogs;
 use Exception;
 use WpOrg\Requests\Requests;
 
-/**
- * todo self::get_artist_releases() https://www.discogs.com/developers/#page:database,header:database-artist-releases-get
- * todo self::get_master_versions() https://www.discogs.com/developers/#page:database,header:database-master-release-versions-get
- * todo self::get_label() https://www.discogs.com/developers/#page:database,header:database-label-get
- * todo self::get_label_releases() https://www.discogs.com/developers/#page:database,header:database-all-label-releases-get
- * todo self::get_identity() https://www.discogs.com/developers/#page:user-identity,header:user-identity-identity-get
- * todo self::get_profile() https://www.discogs.com/developers/#page:user-identity,header:user-identity-profile-get
- * todo self::add_inventory() https://www.discogs.com/developers/#page:inventory-upload,header:inventory-upload-add-inventory-post
- * todo self::delete_inventory() https://www.discogs.com/developers/#page:inventory-upload,header:inventory-upload-delete-inventory-post
- * todo self::get_collection_folders() https://www.discogs.com/developers/#page:user-collection,header:user-collection-collection-get
- * todo self::get_collection_folder() https://www.discogs.com/developers/#page:user-collection,header:user-collection-collection-folder-get
- * todo self::get_collection_items_by_folder() https://www.discogs.com/developers/#page:user-collection,header:user-collection-collection-items-by-folder-get
- * todo self::get_user_lists() https://www.discogs.com/developers/index.html#page:user-lists,header:user-lists-user-lists
- * todo self::get_lists() https://www.discogs.com/developers/index.html#page:user-lists,header:user-lists-list
- * todo self::get_wantlist() https://www.discogs.com/developers/#page:user-wantlist,header:user-wantlist-wantlist
- */
 class Discogs
 {
     public const VERSION = '0.1.0';
@@ -54,7 +38,7 @@ class Discogs
 
     private readonly string $secret;
 
-    private string $userAgent;
+    private readonly string $userAgent;
 
     /**
      * Constructor
@@ -107,6 +91,7 @@ class Discogs
         if (!isset($parameters['per_page'])) {
             $parameters['per_page'] = 10;
         }
+
         $query = http_build_query($parameters);
 
         return $this->_query_discogs('database/search', $query);
@@ -197,6 +182,140 @@ class Discogs
      */
     public function get_artist(int $object_id): array
     {
-        return $this->_query_discogs('artists/' . $object_id);
+        $query = sprintf("artists/%d", $object_id);
+
+        return $this->_query_discogs($query);
+    }
+
+    /**
+     * https://www.discogs.com/developers/#page:database,header:database-artist-releases-get
+     * @return array<string, mixed>
+     * @throws Exception
+     */
+    public function get_artist_releases(int $artist_id): array
+    {
+        $query = sprintf("artists/%d/releases", $artist_id);
+
+        return $this->_query_discogs($query);
+    }
+
+    /**
+     * https://www.discogs.com/developers/#page:database,header:database-master-release-versions-get
+     * @return array<string, mixed>
+     * @throws Exception
+     */
+    public function get_master_versions(int $master_id): array
+    {
+        $query = sprintf("masters/%d/versions", $master_id);
+
+        return $this->_query_discogs($query);
+    }
+
+    /**
+     * https://www.discogs.com/developers/#page:database,header:database-label-get
+     * @return array<string, mixed>
+     * @throws Exception
+     */
+    public function get_label(int $label_id): array
+    {
+        $query = sprintf("labels/%d", $label_id);
+
+        return $this->_query_discogs($query);
+    }
+
+    /**
+     * https://www.discogs.com/developers/#page:database,header:database-all-label-releases-get
+     * @return array<string, mixed>
+     * @throws Exception
+     */
+    public function get_label_releases(int $label_id): array
+    {
+        $query = sprintf("labels/%d/releases", $label_id);
+
+        return $this->_query_discogs($query);
+    }
+
+    /**
+     * https://www.discogs.com/developers/#page:user-identity,header:user-identity-profile-get
+     * @return array<string, mixed>
+     * @throws Exception
+     */
+    public function get_profile(string $username): array
+    {
+        $query = sprintf("users/%s", $username);
+
+        return $this->_query_discogs($query);
+    }
+
+    /**
+     * https://www.discogs.com/developers/#page:user-collection,header:user-collection-collection-get
+     * @return array<string, mixed>
+     * @throws Exception
+     */
+    public function get_collection_folders(string $username): array
+    {
+        $query = sprintf("users/%s/collection/folders", $username);
+
+        return $this->_query_discogs($query);
+    }
+
+    /**
+     * https://www.discogs.com/developers/#page:user-collection,header:user-collection-collection-folder-get
+     * @return array<string, mixed>
+     * @throws Exception
+     */
+    public function get_collection_folder(string $username, int $folder_id): array
+    {
+        $query = sprintf("users/%s/collection/folders/%s", $username, $folder_id);
+
+        return $this->_query_discogs($query);
+    }
+
+    /**
+     * https://www.discogs.com/developers/#page:user-collection,header:user-collection-collection-items-by-folder-get
+     * @return array<string, mixed>
+     * @throws Exception
+     */
+    public function get_collection_items_by_folder(string $username, int $folder_id): array
+    {
+        $query = sprintf("users/%s/collection/folders/%s/releases", $username, $folder_id);
+
+        return $this->_query_discogs($query);
+    }
+
+    /**
+     * https://www.discogs.com/developers/index.html#page:user-lists,header:user-lists-user-lists
+     * @return array<string, mixed>
+     * @throws Exception
+     */
+    public function get_user_lists(string $username): array
+    {
+        $query = sprintf("users/%s/lists", $username);
+
+        return $this->_query_discogs($query);
+    }
+
+    /**
+     * https://www.discogs.com/developers/index.html#page:user-lists,header:user-lists-list
+     * @return array<string, mixed>
+     * @throws Exception
+     */
+    public function get_list(int $list_id): array
+    {
+        $query = sprintf("lists/%d", $list_id);
+
+        return $this->_query_discogs($query);
+    }
+
+    /**
+     * https://www.discogs.com/developers/#page:user-wantlist,header:user-wantlist-wantlist
+     * @return array<string, mixed>
+     * @throws Exception
+     */
+    public function get_wantlist(string $username): array
+    {
+        $query = sprintf("users/%s/wants", $username);
+
+        return $this->_query_discogs($query);
     }
 }
