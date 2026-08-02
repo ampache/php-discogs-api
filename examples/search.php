@@ -4,11 +4,13 @@ use AmpacheDiscogs\Discogs;
 
 require dirname(__DIR__) . '/vendor/autoload.php';
 
-// your own username and password are required to use the Discogs API
-$username = null;
-$password = null;
-$discogs  = new Discogs($username, $password);
+// your own Discogs api key and secret are required to use the Discogs API
+$api_key = 'yourApiKey';
+$secret  = 'yourApiSecret';
+$discogs = new Discogs($api_key, $secret);
 
+// the shape a tag scanner hands over: any key may be absent or empty, which is what the guards below are for
+/** @var list<array{album?: ?string, albumartist?: ?string, artist?: ?string}> $media_info */
 $media_info = [
     [
         'album' => 'The Shape',

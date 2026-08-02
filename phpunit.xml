@@ -13,8 +13,14 @@
         displayDetailsOnPhpunitDeprecations="true"
 >
     <testsuites>
+        <!-- offline: no network, no sleeping, no credentials. this is what composer qa and CI run -->
         <testsuite name="default">
             <directory>tests</directory>
+            <exclude>tests/AmpacheDiscogs/Live</exclude>
+        </testsuite>
+        <!-- opt-in: really calls Discogs, needs .env. composer tests:live -->
+        <testsuite name="live">
+            <directory>tests/AmpacheDiscogs/Live</directory>
         </testsuite>
     </testsuites>
     <source restrictNotices="true" restrictWarnings="true" ignoreIndirectDeprecations="true">

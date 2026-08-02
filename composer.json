@@ -4,7 +4,7 @@
     "description": "A PHP library for accessing the Discogs API",
     "keywords": ["discogs", "library", "php", "api"],
     "homepage": "https://github.com/ampache/php-discogs-api",
-    "license": "MIT",
+    "license": "AGPL-3.0-or-later",
     "authors": [
         {
             "name": "Lachlan de Waard",
@@ -19,15 +19,18 @@
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^3.49",
-        "phpstan/phpstan": "^1.10",
+        "phpstan/phpstan": "^2",
         "phpunit/phpunit": "^11",
-        "rector/rector": "^1"
+        "rector/rector": "^2"
     },
     "scripts": {
-        "qa": "composer run-script cs:check",
+        "coverage": "XDEBUG_MODE=coverage ./vendor/bin/phpunit -c phpunit.xml --testsuite default --coverage-html build/coverage",
+        "qa": "composer run-script syntax && composer run-script cs:check && composer run-script tests",
         "stan": "vendor/bin/phpstan analyse",
         "stan-baseline": "vendor/bin/phpstan --generate-baseline",
-        "tests": "vendor/bin/phpunit -c phpunit.xml",
+        "tests": "vendor/bin/phpunit -c phpunit.xml --testsuite default",
+        "tests:live": "vendor/bin/phpunit -c phpunit.xml --testsuite live",
+        "syntax": "@php resources/scripts/tests/syntax.php",
         "cs:fix": "vendor/bin/php-cs-fixer fix",
         "cs:check": "vendor/bin/php-cs-fixer fix --dry-run -vv",
         "rector:dry": "rector process -n",
@@ -38,18 +41,23 @@
         "qa": "Runs several qa-related tests",
         "stan": "Performs static analysis",
         "stan-baseline": "Regenerate phpstan baseline",
-        "tests": "Executes the unit tests",
+        "tests": "Executes the offline unit tests",
+        "tests:live": "Executes the live tests against the real Discogs API (needs .env)",
         "syntax": "Performs php syntax checks",
         "cs:fix": "Performs code-style corrections on the whole codebase",
         "cs:check": "Performs a code-style dry-run on the whole codebase",
         "rector:dry": "Performs rector code-migrations dry-run",
         "rector:fix": "Applies pending rector code-migrations"
     },
-    "suggest": {
-    },
     "autoload": {
         "psr-0": {
             "AmpacheDiscogs": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-0": {
+            "AmpacheDiscogs\\Tests": "tests/",
+            "AmpacheDiscogs\\Live": "tests/"
         }
     }
 }

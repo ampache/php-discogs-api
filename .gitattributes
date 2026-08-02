@@ -1,2 +1,14 @@
 /tests export-ignore
 /examples export-ignore
+/resources export-ignore
+/.github export-ignore
+/.claude export-ignore
+/.gitattributes export-ignore
+/.gitignore export-ignore
+/.php-cs-fixer.php export-ignore
+/phpstan.neon export-ignore
+/phpunit.xml export-ignore
+/rector.php export-ignore
+/.env.dist export-ignore
+/.env export-ignore
+/.env.local export-ignore

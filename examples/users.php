@@ -4,10 +4,10 @@ use AmpacheDiscogs\Discogs;
 
 require dirname(__DIR__) . '/vendor/autoload.php';
 
-// your own username and password are required to use the Discogs API
-$username = null;
-$password = null;
-$discogs  = new Discogs($username, $password);
+// your own Discogs api key and secret are required to use the Discogs API
+$api_key  = 'yourApiKey';
+$secret   = 'yourApiSecret';
+$discogs  = new Discogs($api_key, $secret);
 $username = 'discogsUsername';
 $list_id  = 1596537;
 

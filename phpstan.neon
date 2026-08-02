@@ -2,5 +2,10 @@ parameters:
   level: 8
   paths:
     - src
-includes:
-    - phpstan-baseline.neon
+    - tests
+    - examples
+  # analyse against every version composer.json allows, so syntax carried over from
+  # Ampache (PHP 8.5+) is caught here rather than by the 8.2 CI job
+  phpVersion:
+    min: 80200
+    max: 80500
