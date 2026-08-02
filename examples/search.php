@@ -33,7 +33,7 @@ foreach ($media_info as $media) {
             if (isset($artists['results']) && count($artists['results']) > 0) {
                 foreach ($artists['results'] as $result) {
                     if ($result['title'] === $media['artist']) {
-                        $artist = $discogs->get_artist((int)$result['id']);
+                        $artist = $discogs->get_artist((int) $result['id']);
                         if (isset($artist['images']) && count($artist['images']) > 0) {
                             $results['art'] = $artist['images'][0]['uri'];
                         }
@@ -117,8 +117,8 @@ foreach ($media_info as $media) {
                      * } $album
                      */
                     $album = (($albums['results'][0]['master_id'] ?? 0) > 0)
-                        ? $discogs->get_album((int)$albums['results'][0]['master_id'])
-                        : $discogs->get_album((int)$albums['results'][0]['id'], 'releases');
+                        ? $discogs->get_album((int) $albums['results'][0]['master_id'])
+                        : $discogs->get_album((int) $albums['results'][0]['id'], 'releases');
                 }
 
                 // fallback to the initial search if we don't have a master

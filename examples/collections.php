@@ -14,7 +14,7 @@ try {
     $results = $discogs->get_collection_folders($username);
 
     print_r($results);
-    $folder_id = (int)$results['folders'][0]['id'];
+    $folder_id = (int) $results['folders'][0]['id'];
 
     $results = $discogs->get_collection_folder($username, $folder_id);
 
